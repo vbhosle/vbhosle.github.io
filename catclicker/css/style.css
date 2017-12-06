@@ -1,0 +1,98 @@
+body{
+	/*background-image: url("../images/caticon.png");*/
+}
+#container{
+	text-align: center;
+	background-color: white;
+}
+
+#select-container{
+	margin: 5px ;
+	border-top: 2px solid black;
+}
+
+#cat-list{
+	margin: 5px;
+	font-size: 150%;
+}
+
+#cat-add{
+	font-size: 120%;
+	vertical-align: center;
+}
+#cards-container{
+	margin: 5px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	background-image: url("../images/caticon.png");
+	min-height: 100vh;
+}
+
+.cat-card{
+	width: 200px;
+	height: 300px;
+	margin: 5px;
+	background-color: mistyrose;
+	border: 1px solid black;
+}
+
+.cat-card:nth-child(odd){
+	background-color: honeydew;
+}
+
+.cat-name{
+	margin: 0px;
+}
+.cat-image{
+	width: 100%;
+	height: 70%;
+	/*background-color: white;*/
+}
+
+.cat-image img{
+	width: 100%;
+	height: 100%;
+	padding: 5px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+.cat-controls{
+	width: 100%;
+	height: 20%;
+	/*background-color: green;*/
+	margin-top: 5px;
+}
+
+.counter{
+	font-size: 200%;
+	font-weight: bold;
+	margin: 5px;
+	padding: 5px;
+}
+
+.reset{
+	font-size: 150%;
+	font-weight: bold;
+	margin: 5px;
+	padding: 5px;
+	background-color: black;
+	color: white;
+	cursor: pointer;
+}
+
+.reset:hover{
+	background-color: grey;
+	cursor: pointer;
+}
+
+.close-button{
+	float: right;
+    display: inline-block;
+    padding: 2px;
+    font-weight: bold;
+    font-size: 120%;
+    font-family: fantasy;
+    line-height: 0.8;
+	cursor: pointer;
+}
