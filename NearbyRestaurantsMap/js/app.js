@@ -35,7 +35,7 @@ var RestaurantViewModel = function(){
   self = this;
   self.markers = new Array();
   self.isSearchMode = ko.observable(true);
-
+  self.isDrawingMode = ko.observable(false);
   //predefined alert types and colors
   self.alertType = {
     DEFAULT: {ID:0, BG_COLOR: '#000000', COLOR:'#ffffff'},
@@ -148,9 +148,11 @@ var RestaurantViewModel = function(){
       if (circle !== null) {
         circle.setMap(null);
       }
+      self.isDrawingMode(false);
     } else {
       drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
       drawingManager.setMap(map);
+      self.isDrawingMode(true);
     }
   };
 
@@ -184,6 +186,10 @@ var RestaurantViewModel = function(){
       circle.setMap(null);
       circle = null;
     }
+    if(drawingManager.getMap() == null){
+      drawingManager.setMap(map);
+    }
+    drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
   };
 
   //to control filters control panel

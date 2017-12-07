@@ -41,6 +41,10 @@ html,body {
   transition: opacity 1s ease-in-out;
 }
 
+.drawing-status{
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: bold;
+}
 input[type="text"]{
   width: 80%;
 }

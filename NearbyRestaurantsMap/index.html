@@ -32,7 +32,8 @@
             <hr>
             <div>
               <span class="text"> Draw a circle to search within it for Restaurants!</span>
-              <input id="toggle-drawing"  type="button" value="Drawing Tools" data-bind="click:toggleDrawing">
+              <input id="toggle-drawing"  type="button" value="Drawing Tools" data-bind="click:toggleDrawing"><br>
+              <span class="iconified drawing-status" data-bind="text: isDrawingMode()?'ON':'OFF', css:{'checked-icon':isDrawingMode(), 'unchecked-icon':!isDrawingMode()}"></span>
             </div>
             <hr>
             <div>
