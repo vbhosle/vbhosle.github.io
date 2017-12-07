@@ -20,7 +20,7 @@
   <body>
       <div class="container">
         <div id="fixed-header">
-          <h1>Where's My Food</h1>
+          <h1>Where's My FoOd</h1>
           <div class="arrow bounce" data-bind="click: toggleShowOptions"></div>
         </div>
         <div class="options-box" data-bind="css:{'options-visible':showOptions}">
@@ -93,9 +93,13 @@
         <h3>FILTER</h3>
       </button>
 
-      </div>
+    </div>
 
        <div id="map"></div>
+       <p id="attribution">
+        Courtesy:&nbsp;Map - <a href="https://developers.google.com/maps/" target="_blank">Google</a>,&nbsp;
+        Data - <a href="https://developers.zomato.com/" target="_blank">Zomato</a>
+      </p>
       </div>
       <script defer
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6txWypfjqV9QokHH6cCarQoe6QRZxJ8g&v=3&libraries=places,drawing&callback=initMap" onerror="handleMapError()">
