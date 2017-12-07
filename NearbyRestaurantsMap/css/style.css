@@ -58,10 +58,12 @@ p.filter-name {
   font-family: Verdana, Geneva, sans-serif;
   font-weight: bold;
 }
-input[type="text"]{
+input[type="text"], input[type="range"]{
   width: 80%;
 }
-
+input[type="range"]{
+  width: 90%;
+}
 
 element.style {
 }
