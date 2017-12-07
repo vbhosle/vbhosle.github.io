@@ -1,5 +1,6 @@
 html,body {
-  font-family: Arial, sans-serif;
+  /*font-family: Arial, sans-serif;*/
+  font-family: 'Montserrat', sans-serif;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -26,7 +27,7 @@ html,body {
 
 .options-box{
   background-color: black;
-  width: 30%;
+  width: 40%;
   position: fixed;
   right: 0px;
   top: 50px;
@@ -38,6 +39,10 @@ html,body {
   z-index: -1;
   color: white;
   transition: opacity 1s ease-in-out;
+}
+
+input[type="text"]{
+  width: 80%;
 }
 
 @keyframes option-box-slide-down{
@@ -286,15 +291,10 @@ p{
 }
 
 /*Info window style*/
-html,body {
-  font-family: Arial, sans-serif;
-  height: 100%;
-  margin: 0;
-  padding: 0;
- }
-
 .info-window{
+  font-family: 'Montserrat', sans-serif;
   font-size: 100%;
+  font-weight: bold;
   max-width: : 250px;
   margin: 10px auto 0px auto;
   border: 1px solid;
@@ -303,14 +303,17 @@ html,body {
 }
 
 .info-title{
-  margin: 0px;
+  font-family: Verdana, Geneva, sans-serif;
   font-weight: bold;
   font-size: 120%;
-  text-align: center;
   color: white;
+  text-align: center;
+  text-transform: capitalize;
   background-color: #cdd614;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
+  margin: 0px;
+  padding: 4px;
 }
 
 .info-item{
@@ -324,7 +327,7 @@ html,body {
 }
 
 .info-item-title{
-  font-weight: bold;
+  color: darkred;
 }
 
 .iconified{

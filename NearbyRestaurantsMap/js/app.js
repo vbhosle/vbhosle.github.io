@@ -292,17 +292,17 @@ function markerSelected(selectedLocn){
                               '<div class="info-details">'+
                                 '<p class="info-item">'+
                                   '<span class="iconified cuisine-icon"></span>'+
-                                  '<span class="info-item-title">Cuisines:</span>'+
+                                  '<span class="info-item-title">Cuisines:&nbsp;</span>'+
                                   selectedLocn.cuisines+
                                 '</p>'+
                                 '<p class="info-item">'+
                                   '<span class="iconified rating-icon"></span>'+
-                                  '<span class="info-item-title">Rating:</span>'+
+                                  '<span class="info-item-title">Rating:&nbsp;</span>'+
                                   selectedLocn.user_rating.aggregate_rating+
                                 '</p>'+
                                 '<p class="info-item">'+
                                   '<span class="iconified cost-icon"></span>'+
-                                  '<span class="info-item-title">Cost for two:</span>'+
+                                  '<span class="info-item-title">Cost for two:&nbsp;</span>'+
                                   selectedLocn.currency+
                                   (selectedLocn.average_cost_for_two?selectedLocn.average_cost_for_two:'N/A')+
                                 '</p>'+
