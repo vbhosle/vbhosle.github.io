@@ -41,12 +41,34 @@ html,body {
   transition: opacity 1s ease-in-out;
 }
 
+p.filter-name {
+    margin-bottom: 5px;
+}
+
+.filter-value{
+  font-weight: bold;
+  color: black;
+  background-color: white;
+  margin-left: 5px;
+  padding: 5px;
+  border-radius:3px;
+}
+
 .drawing-status{
   font-family: Verdana, Geneva, sans-serif;
   font-weight: bold;
 }
 input[type="text"]{
   width: 80%;
+}
+
+
+element.style {
+}
+
+select, option {
+    font-family: inherit;
+    font-weight: bold;
 }
 
 @keyframes option-box-slide-down{
@@ -172,7 +194,7 @@ ul{
 }
 
 li{
-  padding: 10px;
+  padding: 5px;
   border-bottom: 2px solid;
 }
 

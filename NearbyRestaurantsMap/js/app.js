@@ -51,13 +51,19 @@ var RestaurantViewModel = function(){
   self.availableCuisines = ko.observableArray();
   self.selectedCuisine = ko.observable("all");
   //for later use in cost filter
-  self.availableMinCost = ko.observable();
-  self.availableMaxCost = ko.observable();
-  self.selectedMinCost = ko.observable();
-  self.selectedMaxCost = ko.observable();
+  self.availableMinCost = ko.observable(0);
+  self.availableMaxCost = ko.observable(0);
+  self.selectedMaxCost = ko.observable(0);
+  self.selectedMinRating = ko.observable(0);
   self.filteredRestaurants = ko.computed(function(){
     return self.availableRestaurants().filter(function(restaurant){
-      return ( (self.selectedCuisine() === "all") || (restaurant.cuisines.indexOf(self.selectedCuisine())>-1) );
+      return (
+        ((self.selectedCuisine() === "all") || (restaurant.cuisines.indexOf(self.selectedCuisine())>-1))
+        &&
+        (restaurant.average_cost_for_two<=self.selectedMaxCost())
+        &&
+        (restaurant.user_rating.aggregate_rating >= self.selectedMinRating())
+      );
     });
   });
 
@@ -71,15 +77,11 @@ var RestaurantViewModel = function(){
 
   //filter markers
   self.filteredRestaurants.subscribe(function(){
-      for(var i=0; i<self.markers.length;i++){
-        var currMarker = self.markers[i];
-        if(self.filteredRestaurants().some(function(resto){return (resto.id === self.markers[i].id);})){
-          if(currMarker.getMap() == null){
-            currMarker.setMap(map);
-          }
-        }else{
-          currMarker.setMap(null);
-        }
+      clearMarkers();
+      for(var i=0; i<self.filteredRestaurants().length;i++){
+        var currRestaurant = self.filteredRestaurants()[i];
+        var currMarker = self.markers.filter(function(marker){return (marker.id === currRestaurant.id)})[0];
+        currMarker.setMap(map);
       }
     });
 
@@ -186,10 +188,16 @@ var RestaurantViewModel = function(){
       circle.setMap(null);
       circle = null;
     }
-    if(drawingManager.getMap() == null){
+    if(!drawingManager.map){
       drawingManager.setMap(map);
     }
     drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
+
+    //reset min max
+    restoViewModel.availableMinCost(0);
+    restoViewModel.availableMaxCost(0);
+    restoViewModel.selectedMaxCost(0);
+    restoViewModel.selectedMinRating(0);
   };
 
   //to control filters control panel
@@ -357,9 +365,9 @@ var cbData;
 function displayRestaurants(data){
   //TODO for debug, remove later
   cbData=data;
-
   //populate places and markers
   var isWithinCircle;
+  var initMinCost = false;
   for(var i=0; i<data.results_shown; i++){
     isWithinCircle = false;
     console.log("populating viewModel and markers");
@@ -387,6 +395,14 @@ function displayRestaurants(data){
             allCuisines.add(currRestaurant.cuisines[c]);
         }
 
+        restoViewModel.availableMaxCost(Math.max(restoViewModel.availableMaxCost(),currRestaurant.average_cost_for_two));
+        if(!initMinCost){
+          restoViewModel.availableMinCost(currRestaurant.average_cost_for_two);
+          initMinCost = true;
+        } else{
+          restoViewModel.availableMinCost(Math.min(restoViewModel.availableMinCost(),currRestaurant.average_cost_for_two));
+        }
+
         restoViewModel.availableRestaurants.push(currRestaurant);
       }
   }//populated places and markers
@@ -407,6 +423,9 @@ function displayRestaurants(data){
     //first cuisine option should be "all"
     sortedCuisines.sort().unshift("all");
     restoViewModel.availableCuisines(sortedCuisines);
+    restoViewModel.selectedMaxCost(restoViewModel.availableMaxCost());
+    //to tackle issue:ko doesn't adjust range pointer to end
+    $('#maxcost').attr('max',restoViewModel.selectedMaxCost());
     map.setCenter(circle.getCenter());
     map.fitBounds(circle.getBounds());
   }

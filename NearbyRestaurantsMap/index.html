@@ -65,6 +65,22 @@
                                         value: selectedCuisine">
                     </select>
               </li>
+              <li>
+                <p class="filter-name">
+                   <p>Max cost for two</p>
+                   <p class="filter-value" data-bind='text:selectedMaxCost'>
+                   </p>
+                 </p>
+         				<input id="maxcost" type="range" data-bind="value:selectedMaxCost, attr:{min: availableMinCost, max:availableMaxCost}" >
+         			</li>
+              <li>
+                <p class="filter-name">
+                   <p>Minimum Rating</p>
+                   <p class="filter-value" data-bind='text:selectedMinRating'>
+                   </p>
+                 </p>
+         				<input id="minrating" type="range" data-bind="value:selectedMinRating" min="0" max="5" step="0.1">
+         			</li>
             </ul>
           </li>
         </ul>
