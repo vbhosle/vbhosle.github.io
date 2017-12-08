@@ -1,14 +1,12 @@
 ZOMATO_API_KEY = '9829374224f41102e7463d434631ba0d';
 ZOMATO_BASE_URI = "https://developers.zomato.com/api/v2.1/search";
 DEFAULT_QUERY_PARAM = {count: 20, sort: "real_distance", order: "asc"};
-var xhrCap;
-var errorCap;
-var tpData;
+
 function fetchRestaurantsInCircle(lat, lng, radius, callbackFn, statusChangeHandlerFn){
 
-  console.log("lat:"+lat+", lng:"+lng+", radius:"+radius);
+  console.log("lat:"+lat+", lng:"+lng+", radius:"+radius)
   //create copy of DEFAULT_QUERY_PARAM
-  var queryParam = Object.assign({},DEFAULT_QUERY_PARAM);
+  let queryParam = Object.assign({},DEFAULT_QUERY_PARAM);
   queryParam.radius = encodeURIComponent(radius);
   queryParam.lat = encodeURIComponent(lat);
   queryParam.lon = encodeURIComponent(lng);
@@ -28,9 +26,6 @@ function fetchRestaurantsInCircle(lat, lng, radius, callbackFn, statusChangeHand
   }
 
   function wrapData(data, textStatus, xhr){
-    //TODO for debug, remove later
-    tpData = data;
-    xhrCap = xhr;
     console.log('wrapData');
     data.isError = false;
     callbackFn(data);
@@ -39,10 +34,6 @@ function fetchRestaurantsInCircle(lat, lng, radius, callbackFn, statusChangeHand
 
   function handleAjaxError(xhr, textStatus, error) {
     statusChangeHandlerFn(xhr, error);
-
-    //TODO for debug, remove later
-    xhrCap = xhr;
-    errorCap = error;
   }
 
 }

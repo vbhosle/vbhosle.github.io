@@ -1,12 +1,12 @@
-var map;
+let map;
 var isMapVisible = false;
 //set won't keep duplicates :)
-var allCuisines = new Set([]);
-var drawingManager;
-var restoViewModel;
+const allCuisines = new Set([]);
+let drawingManager;
+let restoViewModel;
 // This global circle variable is to ensure only ONE circle is rendered.
 var circle = null;
-var infowindow;
+let infowindow;
 
 //preprocess restaurant data from json
 var Restaurant = function(restaurant_data){
@@ -43,7 +43,7 @@ var RestaurantViewModel = function(){
     INPROGRESS: {ID:2, BG_COLOR: '#000000', COLOR:'#ffffff'},
 	  SUCCESS: {ID:3, BG_COLOR:'#4CAF50', COLOR:'#ffffff'},
     ERROR: {ID:4, BG_COLOR: '#f44336', COLOR:'#ffffff'}
-  };
+  }
 
   self.alertMessage = ko.observable('');
   self.availableRestaurants = ko.observableArray([]);
@@ -55,6 +55,7 @@ var RestaurantViewModel = function(){
   self.availableMaxCost = ko.observable(0);
   self.selectedMaxCost = ko.observable(0);
   self.selectedMinRating = ko.observable(0);
+  //update filteredLocations as per selected filters
   self.filteredRestaurants = ko.computed(function(){
     return self.availableRestaurants().filter(function(restaurant){
       return (
@@ -69,15 +70,14 @@ var RestaurantViewModel = function(){
 
   self.highlightMarkers = function(){
     if(self.selectedRestaurant()){
-      if(self.selectedRestaurant()){
         markerSelected(self.selectedRestaurant());
-      }
     }
-  };
+  }
 
   //filter markers
   self.filteredRestaurants.subscribe(function(){
       clearMarkers();
+      //display only filtered markers
       for(var i=0; i<self.filteredRestaurants().length;i++){
         var currRestaurant = self.filteredRestaurants()[i];
         var currMarker = self.markers.filter(function(marker){return (marker.id === currRestaurant.id)})[0];
@@ -93,9 +93,9 @@ var RestaurantViewModel = function(){
   // show all listings, then decide to focus on one area of the map.
   self.zoomToArea = function() {
     // Initialize the geocoder.
-    var geocoder = new google.maps.Geocoder();
+    let geocoder = new google.maps.Geocoder();
     // Get the address or place that the user entered.
-    var address = self.zoom_in_text();
+    let address = self.zoom_in_text();
     console.log('Zoom Text:'+address);
     // Make sure the address isn't blank.
     if (!address || address == '') {
@@ -128,7 +128,6 @@ var RestaurantViewModel = function(){
             setAlertMessage('Connection error!', 'ERROR');
           }
           else {
-            //TODO put this in closable alert div
             setAlertMessage('We could not find that location - try entering a more' +
                 ' specific place.','INFO');
           }
@@ -147,8 +146,9 @@ var RestaurantViewModel = function(){
     if (drawingManager.map) {
       drawingManager.setMap(null);
       // In case the user drew anything, get rid of the circle
-      if (circle !== null) {
+      if (circle) {
         circle.setMap(null);
+        circle = null;
       }
       self.isDrawingMode(false);
     } else {
@@ -169,7 +169,7 @@ var RestaurantViewModel = function(){
      }
      self.isSearchMode(false);
 
-     if(circle!=null){
+     if(circle){
        fetchRestaurantsInCircle(circle.getCenter().lat(),circle.getCenter().lng(),circle.getRadius(),displayRestaurants, ajaxErrorHandler);
      }
      else{
@@ -184,7 +184,7 @@ var RestaurantViewModel = function(){
     clearMarkers();
     clearViewModel();
     //remove circle if any
-    if(circle!=null){
+    if(circle){
       circle.setMap(null);
       circle = null;
     }
@@ -228,7 +228,7 @@ function initMap() {
   $('#zoom-to-area-text').val('');
 
   //map styles, hide businesses
-  var styles = [
+  const styles = [
       {
         featureType: 'poi.business',
         stylers : [{visibility: 'off'}]
@@ -292,9 +292,9 @@ function markerSelected(selectedLocn){
   for(var i=0; i<restoViewModel.markers.length;i++){
     restoViewModel.markers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
   }
-  var markersArr = $.grep(restoViewModel.markers, function(m){ return m.id === selectedLocn.id; })
+  let markersArr = $.grep(restoViewModel.markers, function(m){ return m.id === selectedLocn.id; })
   if(markersArr.length>0){
-    var marker = markersArr[0];
+    let marker = markersArr[0];
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
     marker.setAnimation(google.maps.Animation.BOUNCE);
     window.setTimeout(function(){marker.setAnimation(null);},700);
@@ -341,7 +341,7 @@ function markerSelected(selectedLocn){
 
 
 function clearMarkers(){
-  var total_markers = restoViewModel.availableRestaurants().length;
+  let total_markers = restoViewModel.availableRestaurants().length;
   console.log('clearMarkers:'+total_markers);
   for(var i=0;i<total_markers;i++){
     restoViewModel.markers[i].setMap(null);
@@ -358,13 +358,8 @@ function clearViewModel(){
   allCuisines.clear();
 }
 
-//remove this debug var
-var cbData;
-
 //callback function when ajax request returns data
 function displayRestaurants(data){
-  //TODO for debug, remove later
-  cbData=data;
   //populate places and markers
   var isWithinCircle;
   var initMinCost = false;
@@ -407,14 +402,14 @@ function displayRestaurants(data){
       }
   }//populated places and markers
 
-  var count_restaurants = restoViewModel.availableRestaurants().length;
+  let count_restaurants = restoViewModel.availableRestaurants().length;
   if(count_restaurants>0){
     console.log("Restaurants found:"+count_restaurants);
     setAlertMessage('Found '+count_restaurants+' restaurants!','SUCCESS');
     window.setTimeout(function(){restoViewModel.alertMessage('');},2000);
     //var sortedCuisines = Array.from(allCuisines).sort();
     //IE doesnt support Array.from, even polyfill didnt work
-    var sortedCuisines = new Array();
+    let sortedCuisines = [];
     //for(let item of allCuisines){sortedCuisines.push(item);};
     allCuisines.forEach(function(value) {
       sortedCuisines.push(value);
@@ -436,7 +431,7 @@ function displayRestaurants(data){
 }
 
 function setAlertMessage(msg, msgType){
-  var newAlert = {
+  let newAlert = {
     message: msg,
     type: (restoViewModel.alertType[msgType]?Object.assign({}, restoViewModel.alertType[msgType]):
           Object.assign({}, restoViewModel.alertType.DEFAULT))
